@@ -24,7 +24,7 @@ class Pet {
     final name = json['name'] == null ? 'UNKOWN' : json['name'] as String;
     final status = json['status'] as String;
     final id = json['id'] as int;
-    final photoUrls = json['photoUrls'] as List<dynamic>;
+    final photoUrls = json['photoUrls'] == null ? [] : json['photoUrls'] as List<dynamic>;
     final category = json['category'] == null ? null : Category.fromJson(json['category']);
     final tagList = json['tags'] == null ? null : json['tags'] as List<dynamic>;
     var tags = tagList?.map((tag) => Tag(id: tag['id'], name: tag['name'] == null ? 'Unkown' : tag['name'])).toList();

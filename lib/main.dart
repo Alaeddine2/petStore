@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petstore/routes.dart';
-import 'package:petstore/utils/them_util.dart';
+import 'package:petstore/utils/theme_util.dart';
 import 'package:petstore/views/pets_store_page.dart';
 
 void main() {

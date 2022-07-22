@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:petstore/controllers/pet_store.controller.dart';
 import 'package:petstore/data/constants.dart';
-import 'package:petstore/utils/them_util.dart';
+import 'package:petstore/utils/theme_util.dart';
 import 'package:petstore/views/edit_pet_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -123,7 +123,7 @@ class PetsStorePage extends StatelessWidget {
                                 ),
                                 Align(
                                   child: Hero(
-                                      tag:controller.pets[index].id,child: petStoreController.pets[index].photoUrls!.length == 0 ? Image.asset('assets/images/not_found1.png') : CachedNetworkImage(
+                                      tag:controller.pets[index].id,child: petStoreController.pets[index].photoUrls!.length == 0 ? Image.asset('assets/images/not_found1.png') : petStoreController.pets[index].photoUrls! == null ? Image.asset('assets/images/not_found1.png') : CachedNetworkImage(
                                       imageUrl: petStoreController.pets[index].photoUrls![0],
                                       fit: BoxFit.fill,
                                       placeholder: (context,url) => CircularProgressIndicator(),
@@ -201,6 +201,11 @@ class PetsStorePage extends StatelessWidget {
               )
             )
           ]),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (() => Get.to(EditPetPage())),
+        backgroundColor: ThemeUtils.light.primaryColor,
+        child: const Icon(Icons.add, color: Colors.white),
       )
     );
   }

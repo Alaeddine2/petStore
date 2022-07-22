@@ -56,6 +56,7 @@ For saving time, I will explain the content of lib folder directly,
 the application source code folder contains six sub-folders as:
 
 - animation folder: contains every custom animations.
+- controllers folder: contains application methods and variables.
 - data folder: contains the constants data of the project (global variables and serve connection string).
 - models folder: contains the application models.
 - service folder: contains the methods and classes that related with the server or the phone Hardware.

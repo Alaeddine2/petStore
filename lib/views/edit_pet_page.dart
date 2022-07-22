@@ -1,13 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import 'package:petstore/controllers/pet_store.controller.dart';
 import 'package:petstore/data/constants.dart';
-import 'package:petstore/utils/them_util.dart';
+import 'package:petstore/utils/theme_util.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:petstore/utils/validator_utils.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter_tags/flutter_tags.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditPetPage extends StatelessWidget {
 
@@ -18,20 +20,22 @@ class EditPetPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>(); //form key
   final _nameController = TextEditingController(); //name controller
   final _nameFocusNode = FocusNode();
-  final GlobalKey<TagsState> _tagStateKey = GlobalKey<TagsState>();
 
   @override
   Widget build(BuildContext context) {
-    petStoreController.currentStatusValue.value = petStoreController.pets[index].status; //initialization of pet status
-    _nameController.text = petStoreController.pets[index].name; //initialization of pet name formField
-    print(petStoreController.pets[index].tags);
+    petStoreController.currentStatusValue.value = index == null ? statusList[0] : petStoreController.pets[index].status; //initialization of pet status
+    _nameController.text = index == null ? '' : petStoreController.pets[index].name; //initialization of pet name formField
+    print(index);
     return Scaffold(
       appBar: AppBar(
         title: Text(index == null ? 'Add Pet' : 'Edit Pet', style: Theme.of(context).textTheme.titleLarge),
         centerTitle: true,
         leading: InkWell(
-            child: const Icon(Icons.arrow_back, size: 28, color: Colors.black ,),
-            onTap: () => Get.back(),
+            child: const Icon(Icons.arrow_back, size: 28, color: Colors.black),
+            onTap: () {
+              petStoreController.imagefilesCounter.value = 0;
+              Get.back();
+            },
           ),
       ),
       body: Container(
@@ -54,6 +58,7 @@ class EditPetPage extends StatelessWidget {
               )
             ],
           )),
+          index != null ?
           Container(
             margin: const EdgeInsets.only(top: 20),
             child: Align(
@@ -71,10 +76,46 @@ class EditPetPage extends StatelessWidget {
                   ),
                 ),
             ),
+          ) : 
+          Obx(() => petStoreController.imagefilesCounter == 0 ?
+          Container(
+            margin: const EdgeInsets.only(top: 60),
+            // Display places to add photos
+            child: InkWell(
+              onTap: () {
+                petStoreController.openImages(); // to open Gallory selector
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:[
+                      Image.asset('assets/images/add_images.jpg', width: Get.width * .6, height: Get.height * .3,),
+                ] 
+              )
+            ),
+          ) : 
+          // if the user select one or more images a Text will apear to tell user that his images are stored fine
+          Container(
+            margin: const EdgeInsets.only(top: 30),            
+            width: Get.width, height: Get.height * .3,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:[
+                      Image.asset('assets/images/saved.webp', width: Get.width * .2, height: Get.height * .2,),
+                      const Text('your images are stored...')
+                    ] 
+                  )
+                ],
+              )
+               
+            ),
           ),
           Align(
             alignment: Alignment.center,
-            child: Container(
+            child: index != null ?
+            Container(
               height: 80,
               child:  Center(
                 child: Row(
@@ -104,7 +145,7 @@ class EditPetPage extends StatelessWidget {
                   boxShadow: shadowList,
                   borderRadius: BorderRadius.circular(20)),
 
-            ),
+            ) : Container(),
           ),
           Positioned(
             top: Get.height * .52,
@@ -188,7 +229,10 @@ class EditPetPage extends StatelessWidget {
               child: Row(
                 children: [
                   InkWell(
-                    onTap: (() => Get.back()),
+                    onTap: (() {
+                      Get.back();
+                      petStoreController.imagefilesCounter.value = 0;
+                    }),
                     child: Container(
                     height: 60,
                     width: 70,
@@ -204,21 +248,25 @@ class EditPetPage extends StatelessWidget {
                         onTap: () {
                           // check if the pet name is not empty and valid then call to update function
                           if(_validateAndSave()) {
-                            petStoreController.updatePet(petStoreController.pets[index].id, _nameController.text);
+                            try {
+                              index != null ? petStoreController.updatePet(petStoreController.pets[index].id, _nameController.text) : petStoreController.addpet(_nameController.text);
+                            } catch (e) {
+                              print(e);
+                            }
                             Get.back();
                           }
                         },
                         child: Container(
                         height: 60,
                         decoration: BoxDecoration(color: ThemeUtils.light.primaryColor ,borderRadius: BorderRadius.circular(20)),
-                        child: const Center(child: Text('Save changes',style: TextStyle(color: Colors.white,fontSize: 24),)),
+                        child: Center(child: Text(index == null ? 'add Pet' : 'Save changes',style: const TextStyle(color: Colors.white,fontSize: 24),)),
                       )),
                     )
                   ],
                 ),
               decoration: BoxDecoration(
                 color: Colors.grey[200],
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40), )
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40), )
               ),
             ),
           )
