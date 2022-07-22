@@ -11,9 +11,9 @@ class PetStoreController extends GetxController {
   List<Pet> allPets = []; //I will using this variable to store all pets
   var currentStatusValue = ''.obs; //I will using this variable to control status dropdownList in update page
   // Image picker Instance creation
-  final ImagePicker imgpicker = ImagePicker();
+  final ImagePicker imgpicker = ImagePicker();// picking image plugin initialization
   List<XFile>? imagefiles = <XFile>[].obs;
-  var imagefilesCounter = 0.obs;
+  var imagefilesCounter = 0.obs;// trackig this variable to know if user has add images or not
 
   @override
   void onInit() {
@@ -21,19 +21,19 @@ class PetStoreController extends GetxController {
     fetchPets();
   }
 
-  Future<void> fetchPets() async {
+  Future<void> fetchPets() async { //getting pets
     pets.value = (await PetService.getPets(statusList[0]))!;
     allPets = pets.value;
   }
 
-  Future<void> deletePet(int id) async{
+  Future<void> deletePet(int id) async{ //deleting pet
     if(await PetService.deletePet(id)){
       pets.removeWhere((item) => item.id == id);
       allPets.removeWhere((item) => item.id == id);
     }
   }
 
-  Future<void> updatePet(int id, String name) async{
+  Future<void> updatePet(int id, String name) async{ //updating pets
     if(await PetService.updatePet(id, name, currentStatusValue.value)){
       int index = pets.indexWhere((element) => element.id == id);
       pets[index].name = name;
@@ -45,19 +45,20 @@ class PetStoreController extends GetxController {
     }
   }
 
-  filterPets(String val){
+  filterPets(String val){ //filter pets by name
     pets.value = pets.where((pet) => pet.name.startsWith(val)).toList();
   }
 
-  clearFilters(String val){
+  clearFilters(String val){ //remove filter
     pets.value = allPets;
   }
 
-  Future<void> addpet(String name) async {
+  Future<void> addpet(String name) async { //addng pet
     //pendingDialog();
+    // uploadig images using thumbsnap api to Cloud then extractig the list of it urls
     List<String> photoImages = imagefilesCounter.value == 0 ? [] : await gettingImagesUrlList(); 
     imagefilesCounter.value = 0;
-    Pet? pet = await PetService.addPet(name, currentStatusValue.value, photoImages);
+    Pet? pet = await PetService.addPet(name, currentStatusValue.value, photoImages); //add the pet then insert it into the pet list
     if(pet != null){
       pets.insert(0, pet);
       allPets = pets.value; 
