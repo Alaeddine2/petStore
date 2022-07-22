@@ -90,7 +90,7 @@ class PetsStorePage extends StatelessWidget {
             ),),
             Container(
               height: Get.height * .59,
-              child: GetX<PetStoreController>(
+              child: GetX<PetStoreController>( // For listning to pets changes
                 builder: (controller) {
                   return
                   controller.pets.length == 0 ?
@@ -122,7 +122,9 @@ class PetsStorePage extends StatelessWidget {
                                   margin: const EdgeInsets.only(top: 50),
                                 ),
                                 Align(
+                                  //Hero animation
                                   child: Hero(
+                                    //Using CachedNetworkImage to save images on local storage and to replace bad images url with static image
                                       tag:controller.pets[index].id,child: petStoreController.pets[index].photoUrls!.length == 0 ? Image.asset('assets/images/not_found1.png') : petStoreController.pets[index].photoUrls! == null ? Image.asset('assets/images/not_found1.png') : CachedNetworkImage(
                                       imageUrl: petStoreController.pets[index].photoUrls![0],
                                       fit: BoxFit.fill,
@@ -202,7 +204,7 @@ class PetsStorePage extends StatelessWidget {
             )
           ]),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton( //add pet botton
         onPressed: (() => Get.to(EditPetPage())),
         backgroundColor: ThemeUtils.light.primaryColor,
         child: const Icon(Icons.add, color: Colors.white),

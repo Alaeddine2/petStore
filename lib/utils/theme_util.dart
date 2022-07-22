@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petstore/data/constants.dart';
 
 class ThemeUtils {
-  static ThemeData light = ThemeData(
+  static ThemeData light = ThemeData( //light mode 
       fontFamily: 'Gordita',
       primarySwatch: Colors.blue,
       primaryColor: primaryColor,
