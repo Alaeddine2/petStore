@@ -37,7 +37,7 @@ pets with the option of filtring pets by name.
 
 by clicking on the pet image you can see all the details, also you can edit or delete it.
 
-the applicaion UI is designed using flutter native Material. 
+the application UI is designed using flutter native Material. 
 
 NB: You will find a demostration about the application below.
 ## Project structure
@@ -54,7 +54,7 @@ to use those resources in my app I have declared them in public.yaml
 
 ![App Screenshot](https://i.ibb.co/ZcRpMWP/assets.png)
 
-For saving time, I will explain the content of the lib folder wich is considered the application source code folder and contains six sub-folders :
+For saving time, I will explain the content of the lib folder which is considered the application source code folder and contains six sub-folders :
 
 - animation folder: contains every custom animations.
 - controllers folder: contains application methods and variables.
@@ -88,14 +88,14 @@ NB: you will find comments inside the code explaining every class or method job.
 
 This is the first startup class and I have replaced `MaterialApp` from `material.dart` by `GetMaterialApp` from Getx package to allow Get routing, then I have initializated my routes extending from routes.dart.
 
-**Listning to pets**
+**Listening to pets**
 
 To fetch the pets data in a store I have created as a first step the models of a pet,its category and a tag.
 then I have created the view of the page as you can see In the picture:
 
 ![alt text](https://i.ibb.co/qmWgxSj/Screenshot-20220722-142455.jpg)
 
-NB: I have declared petStorePage as a ``statelessWidgets`` and this one of the most feature of Getx that make it unnecessairy for our pages to be
+NB: I have declared petStorePage as a ``statelessWidgets`` and this one of the most feature of Getx that make it unnecessary for our pages to be
 a ``StatefulWidgets`` anymore, and this will help us make the app faster.
 
 After creating the UI I have crafted its controller (you will get more infos in code comments), on controller creation the system 
@@ -113,7 +113,7 @@ Here I have used the same dialog for those two features (to improve performance)
 that I have sent from the UI (add pet dialog when index equal to null and edit if not). 
 when the user click to update an existant pet 
 a details page appear containing the collection of its photos inside a carousel, the list of tags, its name and its status,
-so the user can edit the pet name by modifying the text field with validator (name should be not impty and only text allows) and he can change its status from ``dropdownButton``. 
+so the user can edit the pet name by modifying the text field with validator (name should be not empty and only text allows) and he can change its status from ``dropdownButton``. 
 
 ![alt text](https://i.ibb.co/ZfdbzC9/Screenshot-20220722-155709.jpg)
 
@@ -131,7 +131,7 @@ For any connection with the server I have made `PetService.dart`.
 
 Inside of ``ThemeUtils`` I prepared two application themes for the light  and the dark mode.
 
-I figure out that the the list of pets urls are not all working for that 
+I figure out that the list of pets urls are not all working for that 
 I have used ``cached_network_image`` package to catchup if the image url 
 accually works or not.
 
@@ -150,6 +150,11 @@ I can use Angular side by side with nodejs and flutter
 You can download the apk from this link:
 
 https://drive.google.com/file/d/1fTTydyRgt4lIz8hHVSCBmgc9ZaNcY1f4/view?usp=sharing
+
+or 
+
+https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.dropbox.com%2Fs%2Fnv0rwatdiclsxux%2Fpet_store_v2.apk%3Fdl%3D0%26fbclid%3DIwAR1L2TDv8HNraKljgo8wYsQezNDrQaO1C_HLXklbb6hAS-kL0nbpOoQFXPo&h=AT3U1asmwzFrnknwB0LIcwdNsOATE_VsBoEd5_v1U0yunQuIlRgAQVMA6MUU7LBY4MumuK-oxyTKAdzkyOMR2XrcHorirvJj6l4Gck1-vZLyo53ziQuj1mU7wANtNCcoYIljSA
+
 
 You will find the git repository here:
 
